@@ -1,0 +1,40 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+
+private:
+    vector<int> dfs(TreeNode* root){
+        vector<int> res(2, 0);
+        if(!root)
+            return res;
+        
+        if(root->left){
+            vector<int> temp = dfs(root->left);
+            res[0] += max(temp[0], temp[1]);
+            res[1] += temp[0];
+         }
+        
+        if(root->right){
+            vector<int> temp = dfs(root->right);
+            res[0] += max(temp[0], temp[1]);
+            res[1] += temp[0];
+        }
+        
+        res[1] += root->val;
+        return res;
+    }
+public:
+    int rob(TreeNode* root) {
+        if(!root)
+            return 0;
+        vector<int> temp = dfs(root);
+        return max(temp[0], temp[1]);
+    }
+};
