@@ -1,0 +1,49 @@
+class Solution {
+private:
+    bool validIP(string digit){
+        int n = digit.size();
+        if(n > 1)
+            if(digit[0] == '0')
+                return false;
+        
+        const char* chara = digit.c_str();
+        int num = atoi(chara);
+        if(num >= 0 && num <= 255)
+            return true;
+        else
+            return false;
+    }
+    
+    void getIP(string& s, int start, int stage, string& mid, vector<string>& result){
+        if(stage == 4){
+            if(start == s.size() && mid != ""){
+                result.push_back(mid.substr(0, mid.size()-1));
+                mid = "";
+            }
+            return;
+        }
+        
+        for(int k = 1; k <= 3 && start+k-1 < s.size(); k++){
+            string temp = s.substr(start, k);
+            if(validIP(temp)){
+                string m = mid;
+                mid += temp + ".";
+                getIP(s, start+k, stage+1, mid, result);
+                mid = m;
+            }
+        }
+        return;
+    }
+    
+    
+public:
+    vector<string> restoreIpAddresses(string s) {
+        int len = s.size();
+        vector<string> result;
+        if(len > 12 || len < 4)
+            return result;
+        string mid;
+        getIP(s, 0, 0, mid, result);
+        return result;
+    }
+};
