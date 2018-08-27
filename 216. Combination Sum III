@@ -1,0 +1,32 @@
+class Solution {
+private:
+    vector<vector<int>> results;
+    vector<int> result;
+    int sum;
+    
+    void dfs(int start, int count, int n, int k){
+        if(count == k){
+            if(sum == n)
+                results.push_back(result);
+            return;
+        }
+        
+        for(int i = start; i <= 9; i++){
+            sum += i;
+            result.push_back(i);
+            if(sum <= n)
+                dfs(i+1, count+1, n, k);
+            result.pop_back();
+            sum -= i;
+        }
+    }
+    
+public: 
+    vector<vector<int>> combinationSum3(int k, int n) {
+        if(k == 0 || n == 0 || k > n)
+            return results;
+        
+        dfs(1, 0, n, k);
+        return results;
+    }
+};
