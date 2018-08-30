@@ -1,0 +1,26 @@
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        int m = s.size();
+        int n = t.size();
+        
+        if(m != n)
+            return false;
+        
+        unordered_map<char, char> pattern1, pattern2;
+        for(int i = 0; i < m; i++){
+            char schar = s[i];
+            char tchar = t[i];
+            
+            if(pattern1.find(schar) != pattern1.end() && pattern1[schar] != tchar)
+                return false;
+            
+            if(pattern2.find(tchar) != pattern2.end() && pattern2[tchar] != schar)
+                return false;
+            pattern1[schar] = tchar;
+            pattern2[tchar] = schar;
+        }
+        return true;
+        
+    }
+};
