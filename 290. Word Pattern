@@ -1,0 +1,25 @@
+class Solution {
+public:
+    bool wordPattern(string pattern, string str) {
+        std::unordered_map<char, string> pattern_to_str;
+        std::unordered_set<string> strSet;
+        std::stringstream ss(str);
+        
+        string s;
+        
+        for(int i = 0; i < pattern.size(); i++){
+            ss >> s;
+            if(pattern_to_str.find(pattern[i]) == pattern_to_str.end()){
+                if(strSet.find(s) != strSet.end())
+                    return false;
+                
+                strSet.insert(s);
+                pattern_to_str[pattern[i]] = s;
+            }
+            else
+                if(pattern_to_str.find(pattern[i])->second != s)
+                    return false;
+        }
+        return !(ss >> s);
+    }
+};
