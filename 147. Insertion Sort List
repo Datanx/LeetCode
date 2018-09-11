@@ -34,6 +34,8 @@ public:
             
         }
         
-        return dummyNode->next;
+        ListNode* retNode = dummyNode->next;
+        delete dummyNode;
+        return retNode;
     }
 };
