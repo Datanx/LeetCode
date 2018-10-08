@@ -1,0 +1,61 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+struct Node
+{
+    TreeNode* tNode;
+    int level;
+    Node(TreeNode* newtNode, int newlevel): tNode(newtNode), level(newlevel) {}
+};
+
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if(!root)
+            return res;
+        
+        Node* rootNode = new Node(root, 0);
+        queue<Node*> Nqueue;
+        Nqueue.push(rootNode);
+        
+        vector<int> cur;
+        int curLevel = 0;
+        while(!Nqueue.empty()){
+            Node* frontNode = Nqueue.front();
+            Nqueue.pop();
+            
+            if(frontNode->level > curLevel){
+                if(curLevel % 2 == 1)
+                    reverse(cur.begin(),cur.end());
+                res.push_back(cur);
+                cur.clear();
+                curLevel = frontNode->level;
+            }
+            
+            cur.push_back(frontNode->tNode->val);
+            
+            if(frontNode->tNode->left){
+                Node* leftNode = new Node(frontNode->tNode->left, frontNode->level + 1);
+                Nqueue.push(leftNode);
+            }
+            
+            if(frontNode->tNode->right){
+                Node* rightNode = new Node(frontNode->tNode->right, frontNode->level + 1);
+                Nqueue.push(rightNode);
+            }
+        }
+        
+        if(curLevel%2 == 1)
+            reverse(cur.begin(),cur.end());
+        res.push_back(cur);
+        return res;
+    }
+};
