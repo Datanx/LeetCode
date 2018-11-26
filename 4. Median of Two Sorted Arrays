@@ -1,0 +1,29 @@
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        const int m = nums1.size();
+        const int n = nums2.size();
+        int total = m + n;
+        if(total & 0x1)
+            return find_kth(nums1.begin(), m, nums2.begin(), n, total/2 + 1);
+        else
+            return (find_kth(nums1.begin(), m, nums2.begin(), n, total/2) + find_kth(nums1.begin(), m, nums2.begin(), n, total/2 + 1))/2.0;
+    }
+private:
+    int find_kth(vector<int>::const_iterator nums1, int m, vector<int>::const_iterator nums2, int n, int k){
+        if(m > n)
+            return find_kth(nums2, n, nums1, m, k);
+        if(m == 0)
+            return *(nums2 + k - 1);
+        if(k == 1)
+            return min(*nums1, *nums2);
+        
+        int ia = min(k/2, m), ib = k - ia;
+        if(*(nums1 + ia - 1) < *(nums2 + ib - 1))
+            return find_kth(nums1 + ia, m - ia, nums2, n, k - ia);
+        else if(*(nums1 + ia - 1) > *(nums2 + ib - 1))
+            return find_kth(nums1, m, nums2 + ib, n - ib, k - ib);
+        else
+            return nums1[ia-1];
+    }
+};
