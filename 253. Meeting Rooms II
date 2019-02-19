@@ -1,0 +1,31 @@
+class TPoint{
+public:
+    int time;
+    int flag;  // 1 start, 0 end
+    
+    TPoint(){}
+    
+    TPoint(int time, int flag) : time(time), flag(flag){}
+};
+
+class Solution {
+public:
+    int minMeetingRooms(vector<Interval>& intervals) {
+        vector<TPoint> p;
+        for(int i = 0; i < intervals.size(); i++){
+            p.push_back(TPoint(intervals[i].start, 1));
+            p.push_back(TPoint(intervals[i].end, 0));
+        }
+        
+        sort(p.begin(), p.end(), [](TPoint& p1, TPoint& p2)->bool{ return p1.time < p2.time || (p1.time == p2.time && p1.flag < p2.flag); });
+        int res = 0, cnt = 0;
+        for(int i = 0; i < p.size(); i++){
+            if(p[i].flag)
+                cnt++;
+            else
+                cnt--;
+            res = max(res, cnt);
+        }
+        return res;
+    }
+};
