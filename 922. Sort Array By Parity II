@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> sortArrayByParityII(vector<int>& A) {
+        int i = 0, j = 1, len = A.size();
+        while(i < len && j < len){
+            while(i < len && A[i] % 2 == 0){
+                i += 2;
+            }
+            while(j < len && A[j] % 2 == 1){
+                j += 2;
+            }
+            
+            if(i < len && j < len){
+                swap(A[i], A[j]);
+            }
+        }
+        return A;
+    }
+};
