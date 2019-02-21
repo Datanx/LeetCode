@@ -1,0 +1,58 @@
+/// Binary Search
+/// Time Complexity: O(logn)
+/// Space Complexity: O(1)
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        if(nums.size() == 0)
+            return {-1, -1};
+        if(target < nums[0] || target > nums[nums.size() - 1])
+            return {-1, -1};
+
+        int lowerIndex = firstOccurance(nums, target);
+        int first = -1;
+        if(lowerIndex != nums.size() && nums[lowerIndex] == target)
+            first = lowerIndex;
+        // cout << "first = " << first << endl;
+
+        int upperIndex = lastOccurance(nums, target);
+        int last = -1;
+        if(upperIndex == nums.size() && nums.size() > 0 && nums.back() == target)
+            last = nums.size() - 1;
+        else if(upperIndex != nums.size() && nums[upperIndex - 1] == target)
+            last = upperIndex - 1;
+        // cout << "last = " << last << endl;
+
+        int res[2] = {first, last};
+        return vector<int>(res, res + 2);
+    }
+
+private:
+    // same to lower_bound
+    int firstOccurance(const vector<int>& nums, int target){
+
+        int l = 0, r = nums.size();
+        while(l != r){
+            int mid = l + (r - l) / 2;
+            if(nums[mid] < target)
+                l = mid + 1;
+            else    // nums[mid] >= target
+                r = mid;
+        }
+        return l;
+    }
+
+    // same to upper_bound
+    int lastOccurance(const vector<int>& nums, int target){
+
+        int l = 0, r = nums.size();
+        while(l != r){
+            int mid = l + (r - l) / 2;
+            if(nums[mid] <= target)
+                l = mid + 1;
+            else    // nums[mid] > target
+                r = mid;
+        }
+        return l;
+    }
+};
