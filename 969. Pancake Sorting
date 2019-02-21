@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> pancakeSort(vector<int>& A) {
+        vector<int> res;
+        if(is_sorted(A.begin(), A.end()))
+            return res;
+        
+        for(int i = A.size(); i > 0; i--){
+            if(is_sorted(A.begin(), A.end()))
+                break;
+            int pos = findMax(A, i);
+            reverse(A.begin(), A.begin() + pos + 1);
+            res.emplace_back(pos + 1);
+            reverse(A.begin(), A.begin() + i);
+            res.emplace_back(i);
+        }
+        return res;
+    }
+
+private:
+    int findMax(vector<int>& A, int end){
+        int max = A[0];
+        int pos = 0;
+        for(int i = 1; i < end; i++){
+            if(A[i] > max){
+                max = A[i];
+                pos = i;
+            }
+        }
+        return pos;
+    }
+};
