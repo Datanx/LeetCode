@@ -1,0 +1,32 @@
+// Time Complexity: O(logn)
+// Space Complexity: O(1)
+// 从左向右，如果左边的点比右边的点小，说明这两个点之间是有序的。
+// 如果左边的点比右边的点大，说明中间有个旋转点，所以一分为二后，肯定有一半是有序的。所以还可以用二分法。
+// 不过先要判断左边有序还是右边有序，如果左边有序，则直接将目标与左边的边界比较，就知道目标在不在左边，
+// 如果不在左边肯定在右边。
+
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int l = 0, r = nums.size() - 1;
+        while(l <= r){
+            int mid = l + (r - l) / 2;
+            if(nums[mid] == target)
+                return mid;
+            
+            if(nums[l] <= nums[mid]){
+                if(nums[l] <= target && target <= nums[mid])
+                    r = mid - 1;
+                else
+                    l = mid + 1;
+            }
+            else{
+                if(nums[mid] <= target && target <= nums[r])
+                    l = mid + 1;
+                else
+                    r = mid - 1;
+            }
+        }
+        return -1;
+    }
+};
