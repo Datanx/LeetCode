@@ -1,0 +1,53 @@
+/// Index as a hash key
+/// Time Complexity: O(n)
+/// Space Complexity: O(1)
+
+/// 1. Check if 1 is present in the array. If not, you're done and 1 is the answer.
+/// 2. If array contains only one element and it's 1, the answer is 2.
+/// 3. Replace negative numbers, zeros, and numbers larger than n by 1s.
+/// 4. Walk along the array. Change the sign of a-th element if you meet number a. Be careful with duplicates : do sign change only once. Use index 0 to save an information about presence of number n since index n is not available.
+/// 5. Walk again along the array. Return the index of the first positive element.
+/// 6. If nums[0] > 0 return n.
+/// 7. If on the previous step you didn't find the positive element in nums, that means that the answer is n + 1.
+
+class Solution {
+public:
+    int firstMissingPositive(vector<int>& nums) {
+        int n = nums.size();
+        
+        int contains = 0;
+        for(int i = 0; i < n; i++)
+            if(nums[i] == 1){
+                contains++;
+                break;
+            }
+        
+        if(contains == 0)
+            return 1;
+        
+        if(n == 1)
+            return 2;
+        
+        for(int i = 0; i < n; i++)
+            if((nums[i] <= 0) || (nums[i] > n))
+                nums[i] = 1;
+        
+        for(int i = 0; i < n; i++){
+            int a = abs(nums[i]);
+            if(a == n)
+                nums[0] = -abs(nums[0]);
+            else
+                nums[a] = -abs(nums[a]);
+        }
+        
+        for(int i = 1; i < n; i++){
+            if(nums[i] > 0)
+                return i;
+        }
+        
+        if(nums[0] > 0)
+            return n;
+        
+        return n + 1;
+    }
+};
