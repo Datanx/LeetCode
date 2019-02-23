@@ -1,0 +1,44 @@
+/// Simulation
+/// Time Complexity: O(n^2)
+/// Space Complexity: O(n^2)
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        M = matrix.size();
+        if(M == 0)
+            return {};
+        
+        N = matrix[0].size();
+        if(N == 0)
+            return {};
+        
+        vector<vector<bool>> visited(M, vector<bool>(N, false));
+        int curd = 0, curx = 0, cury = 0;
+        vector<int> res;
+        while(res.size() < M * N){
+            if(!visited[curx][cury]){
+                res.push_back(matrix[curx][cury]);
+                visited[curx][cury] = true;
+            }
+            
+            int nextx = curx + d[curd][0];
+            int nexty = cury + d[curd][1];
+            if(inArea(nextx, nexty) && !visited[nextx][nexty]){
+                curx = nextx;
+                cury = nexty;
+            }
+            else
+                curd = (curd + 1) % 4;
+        }
+        return res;
+    }
+    
+private:
+    int d[4][2] = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+    int M, N;
+    
+    bool inArea(int x, int y){
+        return x >= 0 && x < M && y >= 0 && y < N;
+    }
+    
+};
