@@ -1,0 +1,26 @@
+/// 显然对于矩阵matrix[i][j]其对应的数字为 i*n+j ，反之有第 k 个数字对应的是矩阵中matrix[ k / n ][ k % n ] 
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m = matrix.size();
+        if(!m)
+            return false;
+        
+        int n = matrix[0].size();
+        if(!n)
+            return false;
+        
+        if(matrix[0][0] == target || matrix[m - 1][n - 1] == target)
+            return true;
+        int left = 0, right = n * m - 1, mid;
+        
+        while(left + 1< right){
+            mid = left + (right - left) / 2;
+            if(matrix[mid / n][mid % n] <= target)
+                left = mid;
+            else
+                right = mid;
+        }
+        return matrix[left / n][left % n] == target;
+    }
+};
