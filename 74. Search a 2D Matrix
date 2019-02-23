@@ -14,13 +14,15 @@ public:
             return true;
         int left = 0, right = n * m - 1, mid;
         
-        while(left + 1< right){
+        while(left <= right){
             mid = left + (right - left) / 2;
-            if(matrix[mid / n][mid % n] <= target)
-                left = mid;
+            if(matrix[mid / n][mid % n] == target)
+                return true;
+            else if(matrix[mid / n][mid % n] < target)
+                left = mid + 1;
             else
-                right = mid;
+                right = mid - 1;
         }
-        return matrix[left / n][left % n] == target;
+        return false;
     }
 };
