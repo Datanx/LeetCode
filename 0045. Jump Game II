@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int steps = 0, lastReach = 0, currentReach = 0, len = nums.size();
+        for(int i = 0; i < len; i++){
+            if(i > lastReach){
+                steps++;
+                lastReach = currentReach;
+            }
+            int tempReach = i + nums[i];
+            if(currentReach < tempReach)
+                currentReach = tempReach;
+        }
+        
+        return currentReach >= len - 1 ? steps : 0; 
+    }
+};
