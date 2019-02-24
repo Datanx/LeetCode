@@ -1,2 +1,2 @@
 # LeetCode Solutions(C++ Edition)
-51 79 98 200 376 120 213 337 309 494 93 131 103 42 37
+I will put my solutions to Leetcode Problems in this repo. Every problem will be solved in <b>C++</b>.
