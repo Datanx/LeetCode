@@ -1,0 +1,49 @@
+/// Using HashMap
+/// Time Complexity: O(n)
+/// Space Complexity: O(n)
+
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+
+    Node() {}
+
+    Node(int _val, Node* _next, Node* _random) {
+        val = _val;
+        next = _next;
+        random = _random;
+    }
+};
+*/
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        unordered_map<Node*, Node*> nodeMap;
+        
+        Node* dummyHead = new Node(-1, NULL, NULL);
+        Node* pre = dummyHead;
+        Node* node = head;
+        
+        while(node){
+            if(!nodeMap.count(node))
+                nodeMap[node] = new Node(node->val, NULL, NULL);
+            pre->next = nodeMap[node];
+            pre = pre->next;
+            
+            if(node->random){
+                if(!nodeMap.count(node->random))
+                    nodeMap[node->random] = new Node(node->random->val, NULL, NULL);
+                pre->random = nodeMap[node->random];
+            }
+            
+            node = node->next;
+        }
+        Node* res = dummyHead->next;
+        delete dummyHead;
+        return res;
+    }
+};
