@@ -1,0 +1,50 @@
+/// Two Pointers - Floyd's Tortoise and Hare
+///
+/// A great overview for the algorithm is here:
+/// -- https://stackoverflow.com/questions/3952805/proof-of-detecting-the-start-of-cycle-in-linked-list
+///
+/// UPDATE: 24 Mar 2019
+/// The official solution in leetcode is extremely great for this problem:
+/// https://leetcode.com/problems/linked-list-cycle-ii/solution/#approach-2-floyds-tortoise-and-hare-accepted
+///
+/// Time Complexity: O(N)
+/// Space Complexity: O(1)
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if(head == NULL || head->next == NULL)
+            return NULL;
+        
+        ListNode* dummyHead = new ListNode(-1);
+        dummyHead->next = head;
+        
+        ListNode* slow = dummyHead;
+        ListNode* fast = dummyHead;
+        
+        do{
+            if(fast->next == NULL || fast->next->next == NULL)
+                return NULL;
+            
+            fast = fast->next->next;
+            slow = slow->next;
+        }while(slow != fast);
+        
+        ListNode* entrance = slow;
+        ListNode* p = dummyHead;
+        while(p != entrance){
+            p = p->next;
+            entrance = entrance->next;
+        }
+        delete dummyHead;
+        
+        return entrance;
+    }
+};
