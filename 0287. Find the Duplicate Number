@@ -1,0 +1,26 @@
+/// Two Pointers
+/// Same algorithm as 142 Linked List Cycle II :)
+///
+/// Time Complexity: O(n)
+/// Space Complexity: O(1)
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow = 0;
+        int fast = nums[0];
+        
+        while(slow != fast){
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        }
+        
+        int p = 0;
+        int entrance = nums[fast];
+        while(p != entrance){
+             p = nums[p];
+            entrance = nums[entrance];
+        }
+        
+        return p;
+    }
+};
