@@ -1,0 +1,33 @@
+/// Using Queue
+/// Time Complexity: O(1)
+/// Space Complexity: O(size)
+
+class MovingAverage {
+public:
+    /** Initialize your data structure here. */
+    MovingAverage(int size) {
+        sz = size;
+        sum = 0;
+    }
+    
+    double next(int val) {
+        if(q.size() == sz){
+            sum -= q.front();
+            q.pop();
+        }
+        
+        sum += val;
+        q.push(val);
+        
+        return (double)sum / q.size();
+    }
+private:
+    queue<int> q;
+    int sz, sum;
+};
+
+/**
+ * Your MovingAverage object will be instantiated and called as such:
+ * MovingAverage* obj = new MovingAverage(size);
+ * double param_1 = obj->next(val);
+ */
