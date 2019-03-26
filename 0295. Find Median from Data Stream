@@ -1,0 +1,43 @@
+/*
+最优解是维护一个大顶堆和一个小顶堆，并且保证大顶堆的大小不小于小顶堆的大小，其中大顶堆里面包含数组中小的一半元素，小顶堆里面包含数组中大的一半元素。
+这样大顶堆的首元素是小一半里面最大的元素，而小顶堆的首元素是大一半里面最小的元素。如果大顶堆和小顶堆的大小相同，则中位数就是两者首元素的平均值；
+否则就是大顶堆的首元素。而添加一个元素的方法是：首先判断这个元素应该出现在大顶堆还是小顶堆，并且将其插入相应的堆中。之后还要根据情况调整两个堆的大小，
+保证大顶堆比小顶堆多一个元素或者两者元素数相同。一个巧妙的方法是：首先将该元素插入大顶堆中，然后将大顶堆的首元素移到小顶堆中；移动之后如果发现大顶堆
+的大小小于小顶堆，则将小顶堆的首元素移到大顶堆中。
+*/
+class MedianFinder {
+public:
+    /** initialize your data structure here. */
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        small.push(num);
+        big.push(-small.top());
+        small.pop();
+        
+        if(small.size() < big.size()){
+            small.push(-big.top());
+            big.pop();
+        }
+    }
+    
+    double findMedian() {
+        int size = small.size() + big.size();
+        if(size % 2 != 0)
+            return small.top();
+        else
+            return (small.top() - big.top()) / 2.0;
+    }
+
+private:
+    priority_queue<int> small, big;
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
