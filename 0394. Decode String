@@ -1,0 +1,39 @@
+/// Using Stack - non recursion algorithm
+/// Time Complexity: O(n)
+/// Space Complexity: O(n)
+
+class Solution {
+public:
+    string decodeString(string s) {
+        vector<string> stack;
+        vector<int> nums;
+        
+        stack.push_back("");
+        for(int i = 0; i < s.size();){
+            if(isalpha(s[i]))
+                stack.back() += s[i++];
+            else if(isdigit(s[i])){
+                int j;
+                for(j = i + 1; j < s.size() && isdigit(s[j]); j++);
+                nums.push_back(atoi(s.substr(i, j-i).c_str()));
+                stack.push_back("");
+                assert(s[j] == '[');
+                i = j + 1;
+            }
+            else{
+                assert(s[i] == ']');
+                string tres = stack.back();
+                stack.pop_back();
+                
+                int num = nums.back();
+                nums.pop_back();
+                
+                while(num--)
+                    stack.back() += tres;
+                
+                i++;
+            }   
+        }
+        return stack.back();
+    }
+};
