@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int calPoints(vector<string>& ops) {
+        int sum = 0;
+        vector<int> rounds;
+        for(int i = 0; i < ops.size(); i++){
+            if(ops[i] == "C"){
+                sum -= rounds.back();
+                rounds.pop_back();
+            }
+            else if(ops[i] == "D"){
+                int temp = 2 * rounds.back();
+                rounds.push_back(temp);
+                sum += temp;
+            }
+            else if(ops[i] == "+"){
+                int index = rounds.size() - 1;
+                int temp = rounds[index] + rounds[index - 1];
+                rounds.push_back(temp);
+                sum += temp;
+            }
+            else{
+                int temp = stoi(ops[i]);
+                sum += temp;
+                rounds.push_back(temp);
+            }
+        }
+        return sum;
+    }
+};
