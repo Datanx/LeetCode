@@ -1,0 +1,38 @@
+/// Since the timestamp is strictly increasing,
+/// We can just use array to store all data
+/// and use binary search directly for the array corresponding to each key
+///
+/// Time Complexity: init: O(1)
+///                  set: O(1)
+///                  get: O(logn)
+/// Space Complexity: O(n)
+
+class TimeMap {
+private:
+    unordered_map<string, vector<pair<int, string>>> timeMap; // key -> (time, value)
+    
+public:
+    /** Initialize your data structure here. */
+    TimeMap() {}
+    
+    void set(string key, string value, int timestamp) {
+        timeMap[key].push_back(make_pair(timestamp, value));
+    }
+    
+    string get(string key, int timestamp) {
+        vector<pair<int, string>>::iterator iter = lower_bound(timeMap[key].begin(), timeMap[key].end(), make_pair(timestamp, string("")));
+        if(iter == timeMap[key].end() || iter->first > timestamp){
+            if(iter == timeMap[key].begin())
+                return "";
+            iter--;
+        }
+        return iter->second;
+    }
+};
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap* obj = new TimeMap();
+ * obj->set(key,value,timestamp);
+ * string param_2 = obj->get(key,timestamp);
+ */
