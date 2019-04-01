@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> partitionLabels(string S) {
+        vector<int> res;
+        map<char, int> last_map;
+        for(int i = 0; i < S.size(); i++)
+            last_map[S[i]] = i;
+        
+        for(int start = 0; start < S.size(); start++){
+            int last = last_map[S[start]];
+            for(int i = start; i < last; i++){
+                if(last_map[S[i]] > last)
+                    last = last_map[S[i]];
+            }
+            res.push_back(last - start + 1);
+            start = last;
+        }
+        
+        return res;
+    }
+};
