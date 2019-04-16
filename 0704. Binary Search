@@ -1,0 +1,36 @@
+/*
+start + 1 < end
+start + (end - start) / 2
+A[mid] ==, <, >
+A[start] A[end] ? target
+*/
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        if(n == 0)
+            return -1;
+        if(nums[n - 1] < target || nums[0] > target)
+            return -1;
+        
+        int start = 0, end = n - 1;
+        int mid;
+        
+        while(start + 1 < end){
+            mid = start + (end - start) / 2;
+            if(nums[mid] == target)
+                end = mid;
+            else if(nums[mid] < target)
+                start = mid + 1;
+            else
+                end = mid - 1;
+        }
+        
+        if(nums[start] == target)
+            return start;
+        if(nums[end] == target)
+            return end;
+        
+        return -1;
+    }
+};
