@@ -1,0 +1,31 @@
+/// Binary Search
+/// Time Complexity: O(logn)
+/// Space Complexity: O(1)
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        assert(nums.size() > 0);
+        if(nums.size() == 1)
+            return nums[0];
+        if(nums.size() == 2)
+            return min(nums[0], nums[1]);
+        
+        int start = 0, end = nums.size() - 1;
+        while(start < end){
+            int mid = start + (end - start) / 2;
+            if(nums[start] <= nums[mid] && nums[mid] <= nums[end])
+                return nums[start];
+            
+            if(nums[start] > nums[mid]){
+                start = start + 1;
+                end = mid; 
+            }
+            else if(nums[end] < nums[mid])
+                start = mid + 1;
+            else
+                assert(false);
+              
+        }
+        return nums[start];
+    }
+};
