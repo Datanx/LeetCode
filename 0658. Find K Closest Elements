@@ -1,0 +1,62 @@
+class Solution {
+public:
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int left = findLowerClosest(arr, x);
+        int right = left + 1;
+        
+        priority_queue<int, vector<int>, greater<int>> pq;
+        vector<int> results;
+        
+        for(int i = 0; i < k; i++){
+            if(isLeftCloser(arr, x, left, right)){
+                pq.push(arr[left]);
+                left--;
+            }
+            else{
+                pq.push(arr[right]);
+                right++;
+            }
+        }
+        
+        for(int i = 0; i < k; i++){
+            results.push_back(pq.top());
+            pq.pop();
+        }
+        
+        return results;
+    }
+    
+private:
+    bool isLeftCloser(vector<int>& arr, int x, int left, int right){
+        if(left < 0)
+            return false;
+        
+        if(right >= arr.size())
+            return true;
+        
+        if(x - arr[left] != arr[right] - x)
+            return x - arr[left] < arr[right] - x;
+        
+        return true;
+    }
+    
+    int findLowerClosest(vector<int>& arr, int x){
+        // find the last element smaller than target
+        int start = 0, end = arr.size() - 1;
+        while(start + 1 < end){
+            int mid = start + (end - start) / 2;
+            if(arr[mid] < x)
+                start = mid;
+            else
+                end = mid;
+        }
+        
+        if(arr[end] < x)
+            return end;
+        
+        if(arr[start] < x)
+            return start;
+        
+        return -1;
+    }
+};
