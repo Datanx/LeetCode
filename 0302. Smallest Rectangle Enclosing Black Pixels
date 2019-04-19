@@ -1,0 +1,100 @@
+/*
+根据题意，在列中需要找出第一个'1'出现的最左侧坐标和最右侧坐标，
+在行中需要找出第一个'1'出现的最上面坐标和最下面坐标。故采用二
+分的方法在区间查找即可。最后返回(right - left + 1) * (bottom - top + 1)即可。
+*/
+class Solution {
+public:
+    int minArea(vector<vector<char>>& image, int x, int y) {
+        int m = image.size();
+        if(m == 0)
+            return 0;
+        
+        int n = image[0].size();
+        if(n == 0)
+            return 0;
+        
+        int left = findLeft(image, 0, y);
+        int right = findRight(image, y, n - 1);
+        int top = findTop(image, 0, x);
+        int bottom = findBottom(image, x, m - 1);
+        
+        return (right - left + 1)*(bottom - top + 1);
+    }
+    
+private:
+    int findLeft(vector<vector<char>>& image, int start, int end){
+        while(start + 1 < end){
+            int mid = start + (end - start) / 2;
+            if(isEmptyColumn(image, mid))
+                start = mid;
+            else
+                end = mid;
+        }
+        
+        if(isEmptyColumn(image, start))
+            return end;
+        return start;
+    }
+    
+    int findRight(vector<vector<char>>& image, int start, int end){
+        while(start + 1 < end){
+            int mid = start + (end - start) / 2;
+            if(isEmptyColumn(image, mid))
+                end = mid;
+            else
+                start = mid;
+        }
+        
+        if(isEmptyColumn(image, end))
+            return start;
+        
+        return end;
+    }
+    
+    int findTop(vector<vector<char>>& image, int start, int end){
+        while(start + 1 < end){
+            int mid = start + (end - start) / 2;
+            if(isEmptyRow(image, mid))
+                start = mid;
+            else
+                end = mid;
+        }
+        
+        if(isEmptyRow(image, start))
+            return end;
+        
+        return start;
+    }
+    
+    int findBottom(vector<vector<char>>& image, int start, int end){
+        while(start + 1 < end){
+            int mid = start + (end - start) / 2;
+            if(isEmptyRow(image, mid))
+                end = mid;
+            else
+                start = mid;
+        } 
+        
+        if(isEmptyRow(image, end))
+            return start;
+        
+        return end;
+    }
+    
+    bool isEmptyColumn(vector<vector<char>>& image, int col){
+        for(int i = 0; i < image.size(); i++){
+            if(image[i][col] == '1')
+                return false;
+        }
+        return true;
+    }
+    
+    bool isEmptyRow(vector<vector<char>>& image, int row){
+        for(int j = 0; j < image[0].size(); j++){
+            if(image[row][j] == '1')
+                return false;
+        }
+        return true;
+    }
+};
