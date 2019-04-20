@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        string ss;
+        
+        // traverse from the back to the front
+        int i = s.length() - 1;
+        while(i >= 0){
+            // ignore the space mark
+            while(i >= 0 && s[i] == ' ')
+                i--;
+            
+            if(i < 0)
+                break;
+            
+            if(ss.length() != 0)
+                ss.push_back(' ');
+            
+            string temp;
+            // record a word from the back to the front and, reverse the word
+            for(; i >= 0 && s[i] != ' '; i--)
+                temp.push_back(s[i]);
+            reverse(temp.begin(), temp.end());
+            ss.append(temp);
+        }
+        s = ss;
+        return s;
+    }
+};
