@@ -1,0 +1,28 @@
+/*
+使用双指针算法。
+for 循环最大边的位置 i，接下来的任务就是在 0~i-1 之间找到两数之和 > S[i]
+*/
+
+class Solution {
+public:
+    int triangleNumber(vector<int>& nums) {
+        int left = 0, right = nums.size() - 1;
+        int ans = 0;
+        sort(nums.begin(), nums.end());
+        
+        for(int i = 0; i < nums.size(); i++){
+            left = 0;
+            right = i - 1;
+            while(left < right){
+                if(nums[left] + nums[right] > nums[i]){
+                    ans = ans + (right - left);
+                    right--;
+                }
+                else{
+                    left++;
+                }
+            }
+        }
+        return ans;
+    }
+};
